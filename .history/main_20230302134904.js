@@ -1,0 +1,47 @@
+const footer__input = document.querySelector(".footer__input");
+const footer__button = document.querySelector(".footer__button");
+const new__form = document.querySelector(".new-form");
+const items = document.querySelector(".items");
+
+new__form.addEventListener("submit", event => {
+  event.preventDefault();
+  createList();
+});
+
+function createList() {
+  // 입력값 받기
+  let text = footer__input.value;
+
+  // li(item) 생성
+  const item = createItem(text);
+  items.appendChild(item);
+
+  footer__input.value = "";
+}
+
+let id = 0;
+
+function createItem(text) {
+  const item__row = document.createElement("li");
+  item__row.setAttribute("class", "item__row");
+  item__row.setAttribute("data-id", id);
+  item__row.innerHTML = `
+    <div class="item">
+    <span class="item__name">${text}</span>
+    <button class="item__delete">
+      <i class="fa-solid fa-trash-can" data-id="${id}"></i>
+    </button>
+  </div>
+  <div class="item__divider"></div>
+  `;
+  id++;
+  return item__row;
+}
+
+items.addEventListener("click", event => {
+  let id = event.target.dataset.id;
+  if (id) {
+    let del_item = document.querySelector(`.item__row[data-id="${id}"]`);
+    del_item.remove();
+  }
+});
